@@ -3,19 +3,31 @@
   "version": "1.0.0",
   "description": "This package helps escape html in a JSON object",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": "https://github.com/bodunadebiyi/bd-escape-html-in-json",
   "author": "Bodunde Adebiyi",
+  "keywords": ["escape html", "escape html in json", "html entities"],
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "tslint -p tsconfig.json"
+    "lint": "tslint -p tsconfig.json",
+    "test": "jest --config jestconfig.json",
+    "prepublishOnly": "yarn run test && yarn run lint",
+    "preversion": "yarn run lint",
+    "version": "yarn run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "jest": "^27.0.6",
     "prettier": "^2.3.2",
+    "ts-jest": "^27.0.4",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.3.5"
   },
-  "files": ["lib/**/*"]
+  "files": [
+    "lib/**/*"
+  ]
 }

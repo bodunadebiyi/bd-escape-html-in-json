@@ -6,7 +6,7 @@ export const escapeHTMLString = (unescapedString: string) => {
   return unescapedString.replace(matchHtmlRegExp, replacerFunction);
 };
 
-export const escapeObject = <T>(unEscapedObject: T[] | T, fieldsToExempt: string[]): T[] | T => {
+export const escapeObject = <T>(unEscapedObject: T[] | T, fieldsToExempt: string[]=[]): T[] | T => {
   if (Array.isArray(unEscapedObject)) {
     unEscapedObject.forEach((item) => escapeObject(item, fieldsToExempt));
   } else if (isObject(unEscapedObject)) {
