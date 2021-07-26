@@ -13,7 +13,7 @@ export const escapeObject = <T>(unEscapedObject: T[] | T, fieldsToExempt: string
     for (const [key, value] of Object.entries(unEscapedObject)) {
       if (!fieldsToExempt.includes(key) && isObject(value)) {
         escapeObject(value, fieldsToExempt);
-      } else if (typeof value === 'string') {
+      } else if (!fieldsToExempt.includes(key) && typeof value === 'string') {
         (unEscapedObject as any)[key] = escapeHTMLString(value);
       }
     }

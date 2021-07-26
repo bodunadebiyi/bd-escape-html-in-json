@@ -111,4 +111,19 @@ describe("escapeObject: escapes html strings found in a json object", () => {
 
     expect(expectedOutput).toEqual(escapeObject(unEscapedObject))
   })
+
+  it('does not escape fields that have been exempted', () => {
+    const unEscapedObject = {
+      name: 'John Doe',
+      address: 'hacked address <script>alert("hacked address")</script>',
+      code: 'contains html <script>console.log("hi there")</script>'
+    }
+    const expectedOutput = {
+      name: 'John Doe',
+      address:
+      "hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;",
+      code: 'contains html <script>console.log("hi there")</script>'
+    }
+    expect(expectedOutput).toEqual(escapeObject(unEscapedObject, ['code']))
+  })
 })
