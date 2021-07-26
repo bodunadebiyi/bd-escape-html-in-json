@@ -1,32 +1,31 @@
-import { escapeHTMLString, escapeObject } from "../index"
+import { escapeHTMLString, escapeObject } from '../index';
 
-describe("escapeHTMLString: escapes html entities in a string", () => {
-  it("correctly escapes html entities in a string", () => {
-    const unescapedString = "this string has <script>console.log('html entities)</script>"
-    const escapedString = "this string has &lt;script&gt;console.log(&#39;html entities)&lt;/script&gt;"
+describe('escapeHTMLString: escapes html entities in a string', () => {
+  it('correctly escapes html entities in a string', () => {
+    const unescapedString = "this string has <script>console.log('html entities)</script>";
+    const escapedString = 'this string has &lt;script&gt;console.log(&#39;html entities)&lt;/script&gt;';
 
-    expect(escapedString).toEqual(escapeHTMLString(unescapedString))
-  })
+    expect(escapedString).toEqual(escapeHTMLString(unescapedString));
+  });
 
-  it("returns the same string if it contains no html entities", () => {
-    const alreadyEscapedString = "this string has no html entities"
-    expect(alreadyEscapedString).toEqual(escapeHTMLString(alreadyEscapedString))
-  })
-})
+  it('returns the same string if it contains no html entities', () => {
+    const alreadyEscapedString = 'this string has no html entities';
+    expect(alreadyEscapedString).toEqual(escapeHTMLString(alreadyEscapedString));
+  });
+});
 
-describe("escapeObject: escapes html strings found in a json object", () => {
+describe('escapeObject: escapes html strings found in a json object', () => {
   it('properly escapes string fields in an object', () => {
     const unEscapedObject = {
       name: 'John Doe',
       address: 'hacked address <script>alert("hacked address")</script>',
-    }
+    };
     const expectedOutput = {
       name: 'John Doe',
-      address:
-      "hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;",
-    }
-    expect(expectedOutput).toEqual(escapeObject(unEscapedObject))
-  })
+      address: 'hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;',
+    };
+    expect(expectedOutput).toEqual(escapeObject(unEscapedObject));
+  });
 
   it('properly escapes string fields in array of objects', () => {
     const unEscapedObject = [
@@ -42,27 +41,25 @@ describe("escapeObject: escapes html strings found in a json object", () => {
         name: 'Janet Doe',
         address: 'unhacked address',
       },
-    ]
+    ];
 
     const expectedOutput = [
       {
         name: 'John Doe',
-        address:
-        "hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;",
+        address: 'hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;',
       },
       {
         name: 'Jane Doe',
-        address:
-        "hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;",
+        address: 'hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;',
       },
       {
         name: 'Janet Doe',
         address: 'unhacked address',
       },
-    ]
+    ];
 
-    expect(expectedOutput).toEqual(escapeObject(unEscapedObject))
-  })
+    expect(expectedOutput).toEqual(escapeObject(unEscapedObject));
+  });
 
   it('properly escapes string in fields regardless of its nested level', () => {
     const unEscapedObject = {
@@ -77,53 +74,46 @@ describe("escapeObject: escapes html strings found in a json object", () => {
               value: 'hacked value <script>alert("hacked value")</script>',
             },
             {
-              anotherValue:
-                'hacked value <script>alert("hacked value")</script>',
+              anotherValue: 'hacked value <script>alert("hacked value")</script>',
             },
           ],
         },
       },
-    }
+    };
 
     const expectedOutput = {
       name: 'John Doe',
-      address:
-      "hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;",
+      address: 'hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;',
       anotherProperty: {
-        value:
-        "hacked value &lt;script&gt;alert(&quot;hacked value&quot;)&lt;/script&gt;",
+        value: 'hacked value &lt;script&gt;alert(&quot;hacked value&quot;)&lt;/script&gt;',
         anotherNestedProperty: {
-          value:
-          "hacked value &lt;script&gt;alert(&quot;hacked value&quot;)&lt;/script&gt;",
+          value: 'hacked value &lt;script&gt;alert(&quot;hacked value&quot;)&lt;/script&gt;',
           yetAnotherProperty: [
             {
-              value:
-              "hacked value &lt;script&gt;alert(&quot;hacked value&quot;)&lt;/script&gt;",
+              value: 'hacked value &lt;script&gt;alert(&quot;hacked value&quot;)&lt;/script&gt;',
             },
             {
-              anotherValue:
-              "hacked value &lt;script&gt;alert(&quot;hacked value&quot;)&lt;/script&gt;",
+              anotherValue: 'hacked value &lt;script&gt;alert(&quot;hacked value&quot;)&lt;/script&gt;',
             },
           ],
         },
       },
-    }
+    };
 
-    expect(expectedOutput).toEqual(escapeObject(unEscapedObject))
-  })
+    expect(expectedOutput).toEqual(escapeObject(unEscapedObject));
+  });
 
   it('does not escape fields that have been exempted', () => {
     const unEscapedObject = {
       name: 'John Doe',
       address: 'hacked address <script>alert("hacked address")</script>',
-      code: 'contains html <script>console.log("hi there")</script>'
-    }
+      code: 'contains html <script>console.log("hi there")</script>',
+    };
     const expectedOutput = {
       name: 'John Doe',
-      address:
-      "hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;",
-      code: 'contains html <script>console.log("hi there")</script>'
-    }
-    expect(expectedOutput).toEqual(escapeObject(unEscapedObject, ['code']))
-  })
-})
+      address: 'hacked address &lt;script&gt;alert(&quot;hacked address&quot;)&lt;/script&gt;',
+      code: 'contains html <script>console.log("hi there")</script>',
+    };
+    expect(expectedOutput).toEqual(escapeObject(unEscapedObject, ['code']));
+  });
+});

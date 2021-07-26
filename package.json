@@ -1,12 +1,16 @@
 {
   "name": "bd-escape-html-in-json",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This package helps escape html in a JSON object",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": "https://github.com/bodunadebiyi/bd-escape-html-in-json",
   "author": "Bodunde Adebiyi",
-  "keywords": ["escape html", "escape html in json", "html entities"],
+  "keywords": [
+    "escape html",
+    "escape html in json",
+    "html entities"
+  ],
   "license": "MIT",
   "scripts": {
     "build": "tsc",
