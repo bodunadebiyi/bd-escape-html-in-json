@@ -4,11 +4,11 @@ This library provides utility methods that allows you escape html entities found
 
 # Installation
 ```
-yarn add bd-escape-html-json
+yarn add bd-escape-html-in-json
 ``` 
 or 
 ```
-npm install bd-escape-html-json
+npm install bd-escape-html-in-json
 ```
 
 # Usage
